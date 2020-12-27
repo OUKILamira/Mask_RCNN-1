@@ -111,22 +111,21 @@ class BalloonDataset(utils.Dataset):
         # Note: In VIA 2.0, regions was changed from a dict to a list.
         annotations = json.load(open(os.path.join(dataset_dir, "via_region_data.json")))
         annotations = list(annotations.values())  # don't need the dict keys
-
         # The VIA tool saves images in the JSON even if they don't have any
         # annotations. Skip unannotated images.
-       via_1_check = annotations.get('regions')
-       via_2_check = annotations.get('_via_img_metadata')
+        via_1_check = annotations.get('regions')
+        via_2_check = annotations.get('_via_img_metadata')
 
        # JSON is formatted with VIA-1.x
-       if via_1_check:
-              annotations = list(annotations.values())
+        if via_1_check:
+                     annotations = list(annotations.values())
        # JSON is formatted with VIA-2.x
-       elif via_2_check:
-              annotations = list(annotations['_via_img_metadata'].values())
+        elif via_2_check:
+                     annotations = list(annotations['_via_img_metadata'].values())
        # Unknown JSON formatting
-       else:
-              raise ValueError('The JSON provided is not in a recognised via-1.x or via-2.x format.')
-       annotations = [a for a in annotations if a['regions']]
+        else:
+                     raise ValueError('The JSON provided is not in a recognised via-1.x or via-2.x format.')
+        annotations = [a for a in annotations if a['regions']]
 
         # Add images
         for a in annotations:
